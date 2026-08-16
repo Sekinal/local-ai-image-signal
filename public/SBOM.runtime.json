@@ -1,0 +1,56 @@
+{
+  "bomFormat": "CycloneDX",
+  "specVersion": "1.5",
+  "version": 1,
+  "metadata": {
+    "component": {
+      "type": "application",
+      "name": "local-ai-image-signal",
+      "version": "1.0.0"
+    }
+  },
+  "components": [
+    {
+      "type": "machine-learning-model",
+      "name": "community-forensics-frontier-detector-2026-08",
+      "version": "16db135220b318d811b207db576d90368980b595",
+      "hashes": [
+        {
+          "alg": "SHA-256",
+          "content": "d75791ba2fa59146025d342cfaafa9ddeab24af117642a94f752ee4c1619375d"
+        }
+      ],
+      "licenses": [{ "license": { "id": "MIT" } }]
+    },
+    {
+      "type": "library",
+      "name": "onnxruntime-web",
+      "version": "1.27.0",
+      "licenses": [{ "license": { "id": "MIT" } }]
+    },
+    {
+      "type": "library",
+      "name": "react",
+      "version": "19.2.8",
+      "licenses": [{ "license": { "id": "MIT" } }]
+    },
+    {
+      "type": "library",
+      "name": "react-dom",
+      "version": "19.2.8",
+      "licenses": [{ "license": { "id": "MIT" } }]
+    },
+    {
+      "type": "library",
+      "name": "zod",
+      "version": "4.4.3",
+      "licenses": [{ "license": { "id": "MIT" } }]
+    },
+    {
+      "type": "framework",
+      "name": "wxt-runtime",
+      "version": "0.21.4",
+      "licenses": [{ "license": { "id": "MIT" } }]
+    }
+  ]
+}

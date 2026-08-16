@@ -1,0 +1,62 @@
+{
+  "name": "local-ai-image-signal",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "A local-only Chrome extension for screening page images with the Community Forensics frontier detector.",
+  "scripts": {
+    "dev": "wxt",
+    "postinstall": "wxt prepare && node scripts/generate-icons.mjs",
+    "model:fetch": "node scripts/fetch-model.mjs",
+    "model:verify": "node scripts/fetch-model.mjs --verify-only",
+    "icons": "node scripts/generate-icons.mjs",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage",
+    "test:e2e": "node scripts/e2e-inference.mjs",
+    "test:e2e:wasm": "node scripts/e2e-inference.mjs --wasm",
+    "test:e2e:auto": "node scripts/e2e-auto-page.mjs",
+    "parity:python": "python3 scripts/python-parity-reference.py",
+    "build": "npm run model:verify && wxt build",
+    "package": "npm run model:verify && wxt zip",
+    "verify": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run build && npm run package",
+    "verify:release": "npm run verify && npm run test:e2e && npm run test:e2e:wasm && npm run test:e2e:auto"
+  },
+  "dependencies": {
+    "onnxruntime-web": "1.27.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "zod": "4.4.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "9.39.5",
+    "@testing-library/jest-dom": "6.9.1",
+    "@testing-library/react": "16.3.2",
+    "@types/chrome": "0.1.38",
+    "@types/node": "25.5.0",
+    "@types/react": "19.2.14",
+    "@types/react-dom": "19.2.3",
+    "@vitejs/plugin-react": "6.0.1",
+    "@vitest/coverage-v8": "4.1.10",
+    "eslint": "9.39.5",
+    "eslint-plugin-react-hooks": "7.0.1",
+    "eslint-plugin-react-refresh": "0.5.2",
+    "globals": "17.4.0",
+    "jsdom": "29.0.1",
+    "prettier": "3.9.6",
+    "puppeteer-core": "25.7.0",
+    "sharp": "0.35.3",
+    "typescript": "5.9.3",
+    "typescript-eslint": "8.57.1",
+    "vite": "8.2.1",
+    "vitest": "4.1.10",
+    "wxt": "0.21.4"
+  },
+  "engines": {
+    "node": ">=22.12.0"
+  }
+}
