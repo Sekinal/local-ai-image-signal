@@ -32,4 +32,4 @@ The developer does not collect, sell, share, or transfer user data. The extensio
 
 ## Changes and contact
 
-Material changes to this policy will be committed with the corresponding source changes. Questions can be filed in the public source repository's issue tracker once the repository is published.
+Material changes to this policy will be committed with the corresponding source changes. Questions can be filed in the [public issue tracker](https://github.com/Sekinal/local-ai-image-signal/issues).

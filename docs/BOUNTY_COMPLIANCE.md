@@ -4,7 +4,7 @@ This matrix maps the supplied “local AI challenge: AI image detector for Chrom
 
 | Requirement                       | Implementation                                                                                                                                                            | Verification evidence                                                                                                                                                              |
 | --------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| MIT open source                   | Root `LICENSE`; license is also packaged in the ZIP.                                                                                                                      | Inspect `LICENSE` and the ZIP listing. A public repository is still required before submitting a claim.                                                                            |
+| MIT open source                   | Root `LICENSE`; license is also packaged in the ZIP and [public repository](https://github.com/Sekinal/local-ai-image-signal).                                            | Inspect `LICENSE`, the public repository, and the ZIP listing.                                                                                                                      |
 | Native Manifest V3                | WXT emits a Chrome MV3 manifest with a service worker, content script, popup, options, and offscreen document.                                                            | `npm run build`; inspect `.output/chrome-mv3/manifest.json`.                                                                                                                       |
 | Browser-only inference            | Packaged ONNX Runtime Web runs the packaged FP16 ONNX model through WebGPU or WASM.                                                                                       | `npm run test:e2e` and `npm run test:e2e:wasm` load the production extension in Chrome and record the actual provider.                                                             |
 | No cloud/API/local server         | Runtime has no external API, cloud fallback, native messaging, localhost dependency, or developer endpoint. Image fetches go only to the displayed image's original host. | Inspect the manifest, threat model, production ZIP, and Chrome network activity. The local HTTP server in `test:e2e:auto` is only a test fixture and is not part of the extension. |
@@ -21,8 +21,7 @@ The published model's clean/web/hard balanced accuracies are 0.9568/0.9385/0.904
 
 ## Before a claim
 
-1. Publish this exact source and lockfile in a public GitHub repository.
-2. Use the public repository URL to host `PRIVACY.md` at a stable location.
-3. Run `npm run verify:release` from a clean checkout and attach the output plus ZIP SHA-256 to the release.
-4. Load the release ZIP/unpacked build in a fresh Chrome profile and repeat the manual matrix in `README.md`.
-5. Submit the public repository link through the bounty's claim process. No claim or external publication is performed by this repository itself.
+1. Confirm that the [public source repository](https://github.com/Sekinal/local-ai-image-signal) and [privacy policy](https://github.com/Sekinal/local-ai-image-signal/blob/main/PRIVACY.md) are accessible.
+2. Run `npm run verify:release` from a clean checkout and attach the output plus ZIP SHA-256 to the release.
+3. Load the release ZIP/unpacked build in a fresh Chrome profile and repeat the manual matrix in `README.md`.
+4. Submit the public repository link through the bounty's claim process. No bounty claim is performed by this repository itself.

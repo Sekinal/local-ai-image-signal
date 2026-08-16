@@ -1,5 +1,7 @@
 # Local AI Image Signal — Chrome extension
 
+[![verify](https://github.com/Sekinal/local-ai-image-signal/actions/workflows/verify.yml/badge.svg)](https://github.com/Sekinal/local-ai-image-signal/actions/workflows/verify.yml)
+
 A reproducible Manifest V3 extension that automatically labels displayed webpage images with the published Community Forensics frontier detector. Inference happens in Chrome with packaged ONNX Runtime Web assets. There is no image upload, telemetry, account, token, local server, external API, or cloud fallback.
 
 This is a screening tool, not an authorship oracle. Do not use a result alone to accuse a person or make a high-impact decision.
@@ -14,6 +16,8 @@ This is a screening tool, not an authorship oracle. Do not use a result alone to
 6. Open or reload a normal HTTP(S) page. Displayed `<img>` and CSS-background images at least 48×48 CSS pixels are queued automatically and receive an **AI score** badge after local inference. The popup and **Screen this image for AI signals** context menu provide manual checks.
 
 The production ZIP is created under `.output/`. Model and runtime assets are bundled in that ZIP, so the installed extension works with internet access disabled except for the ordinary image hosts a webpage itself uses. The source is licensed under [MIT](LICENSE).
+
+Public repository: [Sekinal/local-ai-image-signal](https://github.com/Sekinal/local-ai-image-signal).
 
 ## Scripts
 
