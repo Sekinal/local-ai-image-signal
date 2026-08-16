@@ -10,7 +10,15 @@ export type PageImageInventory = {
 export type PageImageCollection = PageImageInventory & { documentId: string };
 
 /** Must remain self-contained: Chrome serializes this function for executeScript. */
-export function collectVisiblePageImages(maxImages: number): PageImageInventory {
+export function collectVisiblePageImages(
+  maxImages: number,
+  limits: {
+    maxDataUrlCharacters?: number;
+    maxAggregateUrlCharacters?: number;
+  } = {},
+): PageImageInventory {
+  const maxDataUrlCharacters = limits.maxDataUrlCharacters ?? 2_000_000;
+  const maxAggregateUrlCharacters = limits.maxAggregateUrlCharacters ?? 5_000_000;
   const isVisible = (element: Element): boolean => {
     const rect = element.getBoundingClientRect();
     const style = getComputedStyle(element);
@@ -45,11 +53,11 @@ export function collectVisiblePageImages(maxImages: number): PageImageInventory 
       }
     })();
     if (!resolved || seen.has(resolved) || result.length >= maxImages) return;
-    if (resolved.startsWith('data:') && resolved.length > 2_000_000) {
+    if (resolved.startsWith('data:') && resolved.length > maxDataUrlCharacters) {
       skippedOversizedDataUrls += 1;
       return;
     }
-    if (collectedUrlCharacters + resolved.length > 5_000_000) {
+    if (collectedUrlCharacters + resolved.length > maxAggregateUrlCharacters) {
       skippedOversizedDataUrls += 1;
       return;
     }

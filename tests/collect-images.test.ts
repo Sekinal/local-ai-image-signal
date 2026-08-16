@@ -5,7 +5,7 @@ describe('page image inventory limits', () => {
     document.body.replaceChildren();
     for (let index = 0; index < 3; index += 1) {
       const image = document.createElement('img');
-      image.src = `data:image/png;base64,${String(index).repeat(1_900_000)}`;
+      image.src = `data:image/png;base64,${String(index).repeat(1_900)}`;
       image.style.opacity = '1';
       image.getBoundingClientRect = () =>
         ({
@@ -22,7 +22,10 @@ describe('page image inventory limits', () => {
       document.body.append(image);
     }
 
-    const collection = collectVisiblePageImages(100);
+    const collection = collectVisiblePageImages(100, {
+      maxDataUrlCharacters: 2_000,
+      maxAggregateUrlCharacters: 5_000,
+    });
     expect(collection.pageUrl).toBe(location.href);
     expect(collection.images).toHaveLength(2);
     expect(collection.skippedOversizedDataUrls).toBe(1);
