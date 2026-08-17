@@ -19,6 +19,12 @@ The production ZIP is created under `.output/`. Model and runtime assets are bun
 
 Public repository: [Sekinal/local-ai-image-signal](https://github.com/Sekinal/local-ai-image-signal).
 
+The exact training/evaluation source, pinned Python and GPU environment, SHA-verified
+checkpoint fetcher, manifest-recovery tools, and rerun commands are published in
+[Sekinal/local-ai-image-signal-training](https://github.com/Sekinal/local-ai-image-signal-training).
+The large recovery artifacts are pinned to immutable Hugging Face revision
+[`6fca3e7f4365363ee5c0fdb1a17d73917d54413d`](https://huggingface.co/Thermostatic/community-forensics-low-quality-detector-2026-08/tree/6fca3e7f4365363ee5c0fdb1a17d73917d54413d).
+
 ## Scripts
 
 - `npm run dev` — WXT development build/runner.
@@ -66,6 +72,7 @@ Compared with v1.0.0, this release raises development low-quality macro balanced
 - [Architecture](docs/ARCHITECTURE.md)
 - [Threat/privacy model](docs/THREAT_MODEL.md)
 - [Packaged model summary](docs/MODEL_CARD.md)
+- [Training and evaluation source](https://github.com/Sekinal/local-ai-image-signal-training)
 - [Browser/Python parity report](docs/PARITY_REPORT.md)
 - [Bounty compliance matrix](docs/BOUNTY_COMPLIANCE.md)
 - [Privacy policy](PRIVACY.md)
