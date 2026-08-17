@@ -1,6 +1,8 @@
 # Packaged model summary
 
-Source: [Thermostatic/community-forensics-low-quality-detector-2026-08](https://huggingface.co/Thermostatic/community-forensics-low-quality-detector-2026-08), immutable revision `17a23afcd6ee55a41809bb06ff4fd43faea6b639`.
+Deployed artifact source: [Thermostatic/community-forensics-low-quality-detector-2026-08](https://huggingface.co/Thermostatic/community-forensics-low-quality-detector-2026-08), immutable model revision `17a23afcd6ee55a41809bb06ff4fd43faea6b639`.
+
+Full recovery bundle: immutable revision [`6fca3e7f4365363ee5c0fdb1a17d73917d54413d`](https://huggingface.co/Thermostatic/community-forensics-low-quality-detector-2026-08/tree/6fca3e7f4365363ee5c0fdb1a17d73917d54413d), with both full checkpoints, path-free inventories, byte-exact compressed manifests, and reports. Exact training/evaluation source and rerun instructions: [Sekinal/local-ai-image-signal-training](https://github.com/Sekinal/local-ai-image-signal-training).
 
 ## Contract
 
