@@ -1,7 +1,7 @@
 {
   "generatedAt": "2026-08-16",
-  "reference": "Sharp 0.35.3 encoded fixtures; Pillow 12.3.0 bicubic preprocessing; ONNX Runtime CPU 1.28.0",
-  "rawBoundary": 1.359375,
+  "reference": "Sharp 0.35.3 encoded fixtures; Pillow 12.3.0 bicubic preprocessing; ONNX Runtime CPU 1.24.3",
+  "rawBoundary": 1.390625,
   "fixtures": [
     {
       "id": "landscape-png",
@@ -9,17 +9,17 @@
       "height": 384,
       "codec": "png",
       "sha256": "b960bc12aa956313a5679bd86f655e48629943d91a341691ccfeb2a931855439",
-      "maximumDifference": 0.05,
-      "pythonRawLogit": 2.277642250061035
+      "maximumDifference": 0.03,
+      "pythonRawLogit": 2.8627171516418457
     },
     {
       "id": "near-boundary-png",
       "width": 512,
       "height": 384,
       "codec": "png",
-      "sha256": "aafd3d512d3f47e726a0b03d23970ba2eb14f51668be727cf9bf1a8fe0fd1543",
-      "maximumDifference": 0.05,
-      "pythonRawLogit": 1.2304229736328125
+      "sha256": "43d421e0ec5dc7efbf2df8ef48340c51a30819f6a9ef9f344cd97d6a44670321",
+      "maximumDifference": 0.04,
+      "pythonRawLogit": 1.4358179569244385
     },
     {
       "id": "portrait-png",
@@ -28,7 +28,7 @@
       "codec": "png",
       "sha256": "d2a058e237cc13753fc6b537cdfb2c38a9879814cc79ceacaf2a71efe16302fd",
       "maximumDifference": 0.05,
-      "pythonRawLogit": 3.0089547634124756
+      "pythonRawLogit": 3.1519806385040283
     },
     {
       "id": "odd-crop-png",
@@ -36,8 +36,8 @@
       "height": 440,
       "codec": "png",
       "sha256": "2b66ae7db6dbee7041f8b53d95c4c8e96cca24973de07874020b05246c4afccd",
-      "maximumDifference": 0.03,
-      "pythonRawLogit": 4.240469455718994
+      "maximumDifference": 0.02,
+      "pythonRawLogit": 3.945157766342163
     },
     {
       "id": "wide-jpeg",
@@ -45,8 +45,8 @@
       "height": 333,
       "codec": "jpeg",
       "sha256": "f235c998db9c33d9f0efc5fcca513e60fa42eabd2f98303ce5315c6ac6bba8e3",
-      "maximumDifference": 0.075,
-      "pythonRawLogit": 1.3869258165359497
+      "maximumDifference": 0.12,
+      "pythonRawLogit": 1.5233734846115112
     },
     {
       "id": "square-webp",
@@ -54,8 +54,8 @@
       "height": 440,
       "codec": "webp",
       "sha256": "dcea2846d7af612ccef329b7acc36b38c121f6eeeac3f2b40b463b85d44c0d69",
-      "maximumDifference": 0.05,
-      "pythonRawLogit": 0.31294602155685425
+      "maximumDifference": 0.04,
+      "pythonRawLogit": 1.1893272399902344
     },
     {
       "id": "alpha-png",
@@ -64,7 +64,7 @@
       "codec": "png",
       "sha256": "f1fbbb59899359436424c217bcd061675b3c66c09ccaddf431b17fc1d2abda53",
       "maximumDifference": 0.4,
-      "pythonRawLogit": 3.867180585861206
+      "pythonRawLogit": 3.683626413345337
     }
   ]
 }

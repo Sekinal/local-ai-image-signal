@@ -6,18 +6,18 @@
     "component": {
       "type": "application",
       "name": "local-ai-image-signal",
-      "version": "1.0.0"
+      "version": "1.1.0"
     }
   },
   "components": [
     {
       "type": "machine-learning-model",
-      "name": "community-forensics-frontier-detector-2026-08",
-      "version": "16db135220b318d811b207db576d90368980b595",
+      "name": "community-forensics-low-quality-detector-2026-08",
+      "version": "17a23afcd6ee55a41809bb06ff4fd43faea6b639",
       "hashes": [
         {
           "alg": "SHA-256",
-          "content": "d75791ba2fa59146025d342cfaafa9ddeab24af117642a94f752ee4c1619375d"
+          "content": "88ca8e90e5ab33e6e13887124614e14ba96d7c8cc9ecb21505b63cdc6549ff17"
         }
       ],
       "licenses": [{ "license": { "id": "MIT" } }]

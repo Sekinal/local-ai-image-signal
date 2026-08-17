@@ -35,8 +35,8 @@ function OptionsApp() {
         <h2>Interpret responsibly</h2>
         <p>
           The score is a calibrated model signal, not a probability that a specific person used AI.
-          It can be wrong. Tiny synthetic composites, severe low resolution, heavy compression,
-          screenshots, and laundered recent-model images are known weak points.
+          It can be wrong. Tiny synthetic composites, extreme multi-hop compression, screenshots,
+          images below 48 pixels, and laundered recent-model images are known weak points.
         </p>
       </section>
     </main>

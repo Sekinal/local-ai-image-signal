@@ -5,9 +5,9 @@ import { dirname, resolve } from 'node:path';
 import { Readable } from 'node:stream';
 import { finished } from 'node:stream/promises';
 
-const revision = '16db135220b318d811b207db576d90368980b595';
-const file = 'community_forensics_frontier_fp16.onnx';
-const expected = 'd75791ba2fa59146025d342cfaafa9ddeab24af117642a94f752ee4c1619375d';
+const revision = '17a23afcd6ee55a41809bb06ff4fd43faea6b639';
+const file = 'community_forensics_low_quality_fp16.onnx';
+const expected = '88ca8e90e5ab33e6e13887124614e14ba96d7c8cc9ecb21505b63cdc6549ff17';
 const destination = resolve('public/models', file);
 const temporary = `${destination}.part`;
 const verifyOnly = process.argv.includes('--verify-only');
@@ -32,7 +32,7 @@ if (verifyOnly) {
   throw new Error(`The packaged model is missing or failed SHA-256 verification: ${destination}`);
 }
 
-const url = `https://huggingface.co/Thermostatic/community-forensics-frontier-detector-2026-08/resolve/${revision}/${file}`;
+const url = `https://huggingface.co/Thermostatic/community-forensics-low-quality-detector-2026-08/resolve/${revision}/${file}`;
 const response = await fetch(url, { redirect: 'follow' });
 if (!response.ok || !response.body) throw new Error(`Download failed: HTTP ${response.status}`);
 await rm(temporary, { force: true });

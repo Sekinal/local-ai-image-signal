@@ -4,7 +4,7 @@ import sharp from 'sharp';
 
 export const PARITY_SPECS = [
   { id: 'landscape-png', width: 512, height: 384, seed: 0, codec: 'png' },
-  { id: 'near-boundary-png', width: 512, height: 384, seed: 15, codec: 'png' },
+  { id: 'near-boundary-png', width: 512, height: 384, seed: 175, codec: 'png' },
   { id: 'portrait-png', width: 384, height: 512, seed: 7, codec: 'png' },
   { id: 'odd-crop-png', width: 589, height: 440, seed: 3, codec: 'png' },
   { id: 'wide-jpeg', width: 701, height: 333, seed: 6, codec: 'jpeg' },

@@ -2,8 +2,8 @@ LOCAL AI IMAGE SIGNAL — THIRD-PARTY NOTICES
 
 This distribution includes:
 
-Community Forensics frontier detector
-Source: https://huggingface.co/Thermostatic/community-forensics-frontier-detector-2026-08
+Community Forensics low-quality detector
+Source: https://huggingface.co/Thermostatic/community-forensics-low-quality-detector-2026-08
 Base model: https://huggingface.co/OwensLab/commfor-model-384
 License declared by the release: MIT
 
