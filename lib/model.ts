@@ -1,15 +1,16 @@
 export const MODEL = {
-  repository: 'Thermostatic/community-forensics-frontier-detector-2026-08',
-  revision: '16db135220b318d811b207db576d90368980b595',
-  file: 'community_forensics_frontier_fp16.onnx',
-  sha256: 'd75791ba2fa59146025d342cfaafa9ddeab24af117642a94f752ee4c1619375d',
+  repository: 'Thermostatic/community-forensics-low-quality-detector-2026-08',
+  revision: '17a23afcd6ee55a41809bb06ff4fd43faea6b639',
+  file: 'community_forensics_low_quality_fp16.onnx',
+  sha256: '88ca8e90e5ab33e6e13887124614e14ba96d7c8cc9ecb21505b63cdc6549ff17',
   inputSize: 384,
   resizeShortEdge: 440,
   mean: [0.485, 0.456, 0.406] as const,
   std: [0.229, 0.224, 0.225] as const,
-  calibrationIntercept: -0.7403357915937764,
+  calibrationSlope: 0.6352260751077209,
+  calibrationIntercept: -0.2643220522904507,
   defaultThreshold: 0.65,
-  rawLogitBoundary: 1.359375,
+  rawLogitBoundary: 1.390625,
 } as const;
 
 export type SignalLabel = 'stronger-signal' | 'weaker-signal';
@@ -22,12 +23,14 @@ export function sigmoid(value: number): number {
 }
 
 export function calibratedScore(rawLogit: number): number {
-  return sigmoid(rawLogit + MODEL.calibrationIntercept);
+  return sigmoid(MODEL.calibrationSlope * rawLogit + MODEL.calibrationIntercept);
 }
 
 export function rawBoundaryForThreshold(threshold: number): number {
   if (!(threshold > 0 && threshold < 1)) throw new RangeError('Threshold must be between 0 and 1.');
-  return Math.log(threshold / (1 - threshold)) - MODEL.calibrationIntercept;
+  return (
+    (Math.log(threshold / (1 - threshold)) - MODEL.calibrationIntercept) / MODEL.calibrationSlope
+  );
 }
 
 export function classifyScore(score: number, threshold: number): SignalLabel {

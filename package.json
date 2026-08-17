@@ -1,9 +1,9 @@
 {
   "name": "local-ai-image-signal",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "private": true,
   "type": "module",
-  "description": "A local-only Chrome extension for screening page images with the Community Forensics frontier detector.",
+  "description": "A local-only Chrome extension for screening page images with a low-quality-robust Community Forensics detector.",
   "scripts": {
     "dev": "wxt",
     "postinstall": "wxt prepare && node scripts/generate-icons.mjs",

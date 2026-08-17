@@ -1,31 +1,37 @@
 # Packaged model summary
 
-Source: [Thermostatic/community-forensics-frontier-detector-2026-08](https://huggingface.co/Thermostatic/community-forensics-frontier-detector-2026-08), immutable revision `16db135220b318d811b207db576d90368980b595`.
+Source: [Thermostatic/community-forensics-low-quality-detector-2026-08](https://huggingface.co/Thermostatic/community-forensics-low-quality-detector-2026-08), immutable revision `17a23afcd6ee55a41809bb06ff4fd43faea6b639`.
 
 ## Contract
 
-- Architecture: Community Forensics `vit_small_patch16_384`, fine-tuned from `OwensLab/commfor-model-384`.
-- Artifact: FP16 ONNX, opset 17, 43,778,110 bytes, SHA-256 `d75791ba…9375d`.
-- Input: decoded RGB; short edge resized to 440 with a deterministic two-pass Pillow-style bicubic filter, center crop 384, ImageNet mean `[0.485,0.456,0.406]`, std `[0.229,0.224,0.225]`, NCHW float32. Geometry uses Python ties-to-even rounding. See the executed browser/Python parity report; codec/color/alpha behavior can still vary beyond its fixtures.
-- Output: one raw logit. Calibrated score is `sigmoid(raw_logit - 0.7403357915937764)`. Published threshold is 0.65, corresponding to raw boundary 1.359375.
-- License: MIT. Base model is also declared MIT.
+- Architecture: Community Forensics `vit_small_patch16_384`, continued from the prior frontier detector and ultimately fine-tuned from `OwensLab/commfor-model-384`.
+- Artifact: FP16 ONNX, opset 17, 43,778,110 bytes, SHA-256 `88ca8e90…9ff17`.
+- Input: decoded RGB; short edge resized to 440 with a deterministic two-pass Pillow-style bicubic filter, center crop 384, ImageNet normalization, NCHW float32. Geometry uses Python ties-to-even rounding. Codec, color, and alpha behavior can still differ beyond the tested fixtures.
+- Output: one raw logit. Calibrated score is `sigmoid(0.6352260751077209 * raw_logit - 0.2643220522904507)`. Threshold 0.65 corresponds to raw boundary 1.390625.
+- License: MIT; the base releases are also declared MIT.
 
 ## Training and data
 
-The final combined manifest contained 113,472 images: 109,560 training (41,313 real; 68,247 generated) and 3,912 calibration (1,983 real; 1,929 generated), spanning 136 training sources. It combined a 73,371-row legacy corpus with 40,101 newly deduplicated frontier training images. The public frontier component is [Thermostatic/frontier-synthetic-images-2026](https://huggingface.co/datasets/Thermostatic/frontier-synthetic-images-2026); it is not the complete combined corpus and source-specific terms remain applicable.
+The unchanged combined manifest contains 113,472 images: 109,560 training (41,313 real; 68,247 generated) and 3,912 calibration (1,983 real; 1,929 generated), spanning 136 training sources. It combines older forensic corpora with 40,101 deduplicated frontier images. The public frontier component is [Thermostatic/frontier-synthetic-images-2026](https://huggingface.co/datasets/Thermostatic/frontier-synthetic-images-2026); it is not the full mixed corpus, and source-specific terms remain applicable.
 
-Training used 6,000 steps, batch 96, AdamW at `1e-5`, 300-step warmup then cosine decay, EMA 0.999, source-temperature/class-balanced sampling, and symmetric resize/codec/crop/blur augmentation. The selected checkpoint was step 4,500.
+The continuation ran 2,400 steps with batch 96 (230,400 samples), fused AdamW at `3e-6`, 120-step warmup then cosine decay, EMA 0.999, exact class-balanced/source-temperature sampling, and zero decode failures. Class-symmetric augmentation used a 30% web mixture plus a 70% tiny-source mixture spanning 32–256 pixels with randomized resizing, JPEG/WebP recompression, blur, noise, and unsharp filtering. The locked competition test was never opened.
 
 ## Honest evaluation
 
-- Calibration macro balanced accuracy across clean/web/hard: **0.9328**.
-- Clean/web/hard balanced accuracy: **0.9568 / 0.9385 / 0.9047**.
-- Per-image worst across those three views: **0.8829**.
-- Protected recent-HF recall clean/web/hard: **0.9788 / 0.9312 / 0.7407** (189 positive-only images).
-- Protected OpenRouter recall clean/web/hard: **0.8778 / 0.6556 / 0.4778** (90 positive-only images).
-- ONNX/PyTorch threshold-decision agreement on the 11,736-row clean/web/hard ledger: **99.71%**.
-- Locked competition test: **never opened**.
+- Clean/web/hard balanced accuracy: **0.9530 / 0.9359 / 0.8982**, regressions of **0.0038 / 0.0026 / 0.0065** from v1.0.
+- Low-quality macro balanced accuracy: **0.5992 → 0.7584** (**+0.1592**).
+- Low-quality macro fake recall: **0.2013 → 0.5612** (**+0.3599**).
+- Worst-resolution balanced accuracy: **+0.2518**.
+- Recent-HF low-quality macro recall: **0.2518 → 0.5833** (189 positive-only images).
+- OpenRouter low-quality macro recall: **0.1796 → 0.4537** (90 positive-only images).
+- Fake recall after resizing to 128/96/64/48/32 pixels: **0.8139 / 0.7942 / 0.6884 / 0.6262 / 0.5687**.
+- Fake recall after 128px JPEG30 / 96px JPEG20 / 64px multihop / 48px multihop: **0.5837 / 0.3914 / 0.2374 / 0.1078**.
+- ONNX/PyTorch threshold-decision agreement across 11,736 clean/web/hard predictions: **99.7699%**.
 
-The full robustness suite did **not** pass. At only 5% synthetic area, composite balanced accuracy was 0.5100 with 0.0492 fake recall; per-image worst-case BA across all attacks was 0.2766. External physical/platform/generative-laundering cohorts were incomplete. The extension therefore treats output as a screening signal and specifically warns about partial composites, low resolution, heavy laundering, and recent generators.
+All figures are development/calibration evidence. The calibration set participated in model development; recent cohorts are small and positive-only. None establishes performance on arbitrary future internet images or the private bounty benchmark.
 
-The reported calibration set participated in checkpoint/model development. The recent cohorts are protected from training but small and positive-only. None of these metrics establishes performance on arbitrary future internet images.
+## Failed robustness gates
+
+The 33-condition development red-team report remains `valid: false`. The 5%-foreground composite attack produced balanced accuracy 0.5080 and fake recall 0.0492; per-image worst-of-all-attacks fake recall was 0.0026. External generative-laundering, physical-recapture, and platform-laundering cohorts were absent.
+
+This is a whole-image screening classifier, not a localization detector or proof of provenance. Deliberate composite evasion, extreme multi-hop degradation, screenshots/recaptures, unseen generators, and images below 48 pixels remain important weak cases. Full machine-readable positive and negative results are published with the Hugging Face release.

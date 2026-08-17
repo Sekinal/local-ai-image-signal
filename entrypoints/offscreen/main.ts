@@ -140,7 +140,7 @@ async function analyzeJob(
       let result: AnalysisResult;
       try {
         const { bitmap } = await decode(image.url);
-        const tiny = Math.min(bitmap.width, bitmap.height) < 96;
+        const tiny = Math.min(bitmap.width, bitmap.height) < 48;
         if (Math.min(bitmap.width, bitmap.height) < 16) {
           bitmap.close();
           result = {
@@ -173,7 +173,7 @@ async function analyzeJob(
             elapsedMs: performance.now() - started,
             ...((tiny || prepared.hasTransparency) && {
               warning: [
-                tiny ? 'Very low resolution; this detector is unreliable on tiny images.' : '',
+                tiny ? 'Extremely low resolution; the score is less reliable below 48 pixels.' : '',
                 prepared.hasTransparency
                   ? 'Transparency can change decoded colors; interpret this score cautiously.'
                   : '',

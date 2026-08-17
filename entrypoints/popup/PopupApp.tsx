@@ -266,12 +266,12 @@ export function PopupApp() {
           person or make a high-impact decision.
         </p>
         <p>
-          Known weak cases include severe resizing or compression, recent generators after
-          laundering, very small images, and images where generated content covers only a small
+          Known weak cases include extreme multi-hop compression, recent generators after
+          laundering, images below 48 pixels, and images where generated content covers only a small
           region.
         </p>
       </details>
-      <footer>Community Forensics frontier detector · MIT licensed model</footer>
+      <footer>Community Forensics low-quality detector · MIT licensed model</footer>
     </main>
   );
 }

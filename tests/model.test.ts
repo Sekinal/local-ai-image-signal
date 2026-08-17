@@ -10,6 +10,8 @@ describe('published calibrator contract', () => {
   it('maps the frozen raw boundary to the target probability', () => {
     expect(calibratedScore(MODEL.rawLogitBoundary)).toBeCloseTo(MODEL.defaultThreshold, 5);
     expect(rawBoundaryForThreshold(MODEL.defaultThreshold)).toBeCloseTo(MODEL.rawLogitBoundary, 5);
+    expect(calibratedScore(rawBoundaryForThreshold(0.72))).toBeCloseTo(0.72, 10);
+    expect(calibratedScore(1)).toBeCloseTo(0.591677, 5);
   });
 
   it('classifies at the inclusive threshold', () => {

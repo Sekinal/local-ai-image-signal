@@ -2,7 +2,7 @@
 
 [![verify](https://github.com/Sekinal/local-ai-image-signal/actions/workflows/verify.yml/badge.svg)](https://github.com/Sekinal/local-ai-image-signal/actions/workflows/verify.yml)
 
-A reproducible Manifest V3 extension that automatically labels displayed webpage images with the published Community Forensics frontier detector. Inference happens in Chrome with packaged ONNX Runtime Web assets. There is no image upload, telemetry, account, token, local server, external API, or cloud fallback.
+A reproducible Manifest V3 extension that automatically labels displayed webpage images with the published Community Forensics low-quality detector. Inference happens in Chrome with packaged ONNX Runtime Web assets. There is no image upload, telemetry, account, token, local server, external API, or cloud fallback.
 
 This is a screening tool, not an authorship oracle. Do not use a result alone to accuse a person or make a high-impact decision.
 
@@ -57,6 +57,8 @@ Automated jsdom tests cannot validate a browser GPU driver or Chrome permission 
 - No benchmark hashes, private evaluation data, lookup table, backend process, cloud inference, or external API is used.
 
 The private bounty benchmark cannot be reproduced locally, so qualification at 75% balanced accuracy can only be established by the maintainers. The public robustness metrics and known recent-generator weaknesses are reported in [the model summary](docs/MODEL_CARD.md), not extrapolated into a claim about the private benchmark.
+
+Compared with v1.0.0, this release raises development low-quality macro balanced accuracy by 15.9 points and fake recall by 36.0 points while keeping clean/web/hard balanced-accuracy regressions below 0.7 points. It does not solve deliberate composite evasion or extreme multi-hop laundering.
 
 ## Documentation
 

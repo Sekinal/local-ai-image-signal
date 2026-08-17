@@ -15,7 +15,7 @@ import onnxruntime as ort
 from PIL import Image
 
 
-MODEL = Path(__file__).parents[1] / "public/models/community_forensics_frontier_fp16.onnx"
+MODEL = Path(__file__).parents[1] / "public/models/community_forensics_low_quality_fp16.onnx"
 MEAN = np.asarray([0.485, 0.456, 0.406], dtype=np.float32)[:, None, None]
 STD = np.asarray([0.229, 0.224, 0.225], dtype=np.float32)[:, None, None]
 

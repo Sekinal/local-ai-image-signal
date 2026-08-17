@@ -38,7 +38,7 @@ Research was performed on 2026-08-16. Technical decisions use primary documentat
 
 ## Model delivery decision
 
-The published FP16 ONNX file is 43,778,110 bytes and has SHA-256 `d75791ba2fa59146025d342cfaafa9ddeab24af117642a94f752ee4c1619375d`. A build-time script downloads it from the immutable Hugging Face revision `16db135220b318d811b207db576d90368980b595` and refuses a hash mismatch. The checked/built extension contains the artifact under `models/`; it never downloads a model at runtime. This costs package size but gives offline startup after installation, deterministic model identity, and the clearest remote-code review posture.
+The published FP16 ONNX file is 43,778,110 bytes and has SHA-256 `88ca8e90e5ab33e6e13887124614e14ba96d7c8cc9ecb21505b63cdc6549ff17`. A build-time script downloads it from the immutable Hugging Face revision `17a23afcd6ee55a41809bb06ff4fd43faea6b639` and refuses a hash mismatch. The checked/built extension contains the artifact under `models/`; it never downloads a model at runtime. This costs package size but gives offline startup after installation, deterministic model identity, and the clearest remote-code review posture.
 
 The published Python path uses Pillow bicubic resampling. Chrome's canvas smoothing does not promise Pillow-identical kernels, so the extension implements a bounded, deterministic two-pass Pillow-style bicubic filter in TypeScript, including Python ties-to-even geometry. Seven SHA-pinned PNG/JPEG/WebP/alpha fixtures compare the installed production extension with Pillow/ONNX references at release. All tested threshold decisions agree; alpha decoding remains the largest measured raw-logit difference and is reported rather than hidden.
 
