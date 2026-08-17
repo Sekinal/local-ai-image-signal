@@ -1,6 +1,6 @@
 {
   "name": "local-ai-image-signal",
-  "version": "1.1.1",
+  "version": "1.1.2",
   "private": true,
   "type": "module",
   "license": "MIT",
@@ -10,6 +10,7 @@
     "postinstall": "wxt prepare && node scripts/generate-icons.mjs",
     "model:fetch": "node scripts/fetch-model.mjs",
     "model:verify": "node scripts/fetch-model.mjs --verify-only",
+    "metadata:verify": "node scripts/verify-release-metadata.mjs",
     "icons": "node scripts/generate-icons.mjs",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
@@ -25,7 +26,7 @@
     "parity:python": "python3 scripts/python-parity-reference.py",
     "build": "npm run model:verify && wxt build",
     "package": "npm run model:verify && wxt zip",
-    "verify": "npm run format:check && npm run lint && npm run typecheck && npm test && npm run build && npm run package",
+    "verify": "npm run format:check && npm run lint && npm run typecheck && npm run metadata:verify && npm test && npm run build && npm run package",
     "verify:release": "npm run verify && npm run test:e2e && npm run test:e2e:wasm && npm run test:e2e:auto"
   },
   "dependencies": {

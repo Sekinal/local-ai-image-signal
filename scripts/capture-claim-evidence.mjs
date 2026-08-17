@@ -3,6 +3,7 @@ import { access, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import puppeteer from 'puppeteer-core';
+import { waitForAutomaticScores } from './automatic-badge-state.mjs';
 import { buildParityFixtures } from './parity-fixtures.mjs';
 
 const root = process.cwd();
@@ -119,25 +120,9 @@ try {
   const page = await browser.newPage();
   await page.setViewport({ width: 1440, height: 920, deviceScaleFactor: 1 });
   await page.goto(`http://127.0.0.1:${address.port}/`, { waitUntil: 'networkidle0' });
-  await page.waitForFunction(
-    () => {
-      const host = document.querySelector('#local-ai-image-signal-overlay');
-      const badges = [...(host?.shadowRoot?.querySelectorAll('[data-image-signal-id]') ?? [])];
-      return (
-        badges.length === 3 &&
-        badges.every((badge) => /^AI score \d+%$/.test(badge.textContent ?? ''))
-      );
-    },
-    { timeout: 120_000 },
-  );
+  const scores = await waitForAutomaticScores(page, 3);
   await mkdir(path.dirname(outputPath), { recursive: true });
   await page.screenshot({ path: outputPath, type: 'png', fullPage: false });
-  const scores = await page.evaluate(() => {
-    const host = document.querySelector('#local-ai-image-signal-overlay');
-    return [...(host?.shadowRoot?.querySelectorAll('[data-image-signal-id]') ?? [])].map(
-      (badge) => badge.textContent,
-    );
-  });
   process.stdout.write(`${JSON.stringify({ outputPath, scores }, null, 2)}\n`);
 } finally {
   await browser.close();

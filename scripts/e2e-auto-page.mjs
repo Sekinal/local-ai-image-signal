@@ -3,6 +3,7 @@ import { access } from 'node:fs/promises';
 import path from 'node:path';
 import process from 'node:process';
 import puppeteer from 'puppeteer-core';
+import { waitForAutomaticScores } from './automatic-badge-state.mjs';
 import { buildParityFixtures } from './parity-fixtures.mjs';
 
 const root = process.cwd();
@@ -59,10 +60,12 @@ const browser = await puppeteer.launch({
 });
 
 try {
-  await browser.waitForTarget(
+  const workerTarget = await browser.waitForTarget(
     (target) => target.type() === 'service_worker' && target.url().endsWith('/background.js'),
     { timeout: 20_000 },
   );
+  const worker = await workerTarget.worker();
+  if (!worker) throw new Error('Extension service worker is unavailable.');
   const page = await browser.newPage();
   await page.setViewport({ width: 1280, height: 1400 });
   const consoleErrors = [];
@@ -70,14 +73,7 @@ try {
     if (message.type() === 'error') consoleErrors.push(message.text());
   });
   await page.goto(`http://127.0.0.1:${address.port}/`, { waitUntil: 'networkidle0' });
-  await page.waitForFunction(
-    () => {
-      const host = document.querySelector('#local-ai-image-signal-overlay');
-      const badge = host?.shadowRoot?.querySelector('[data-image-signal-id]');
-      return badge?.textContent?.startsWith('AI score ') === true;
-    },
-    { timeout: 120_000 },
-  );
+  await waitForAutomaticScores(page, 1);
   await page.evaluate(() => {
     const duplicate = document.createElement('img');
     duplicate.src = '/fixture.png';
@@ -92,39 +88,51 @@ try {
     background.style.backgroundImage = 'url("/fixture.png")';
     document.body.append(background);
   });
-  await page.waitForFunction(
-    () => {
-      const host = document.querySelector('#local-ai-image-signal-overlay');
-      const badges = [...(host?.shadowRoot?.querySelectorAll('[data-image-signal-id]') ?? [])];
-      return (
-        badges.length === 3 && badges.every((badge) => badge.textContent?.startsWith('AI score '))
-      );
-    },
-    { timeout: 10_000 },
-  );
-  const result = await page.evaluate(() => {
-    const host = document.querySelector('#local-ai-image-signal-overlay');
-    const found = [...(host?.shadowRoot?.querySelectorAll('[data-image-signal-id]') ?? [])];
-    const badge = found[0];
-    return {
-      text: badge?.textContent ?? '',
-      tone: badge instanceof HTMLElement ? badge.dataset.tone : '',
-      badgeCount: found.length,
-    };
+  const initialScores = await waitForAutomaticScores(page, 3, 10_000);
+  const pageCanReadScores = await page.evaluate(() => {
+    return [...document.querySelectorAll('*')].some((element) =>
+      element.shadowRoot?.querySelector('[data-image-signal-id]'),
+    );
   });
-  if (!/^AI score \d+%$/.test(result.text)) {
-    throw new Error(`Automatic page score is missing: ${JSON.stringify(result)}`);
+  if (pageCanReadScores) {
+    throw new Error('The page can read automatic scores through an open shadow root.');
   }
-  if (result.tone !== 'strong' && result.tone !== 'weak') {
-    throw new Error(`Automatic page result tone is invalid: ${JSON.stringify(result)}`);
-  }
-  if (result.badgeCount !== 3) {
-    throw new Error(`Dynamic image/background was not labelled: ${JSON.stringify(result)}`);
+  const removedHosts = await page.evaluate(() => {
+    const candidates = [...document.documentElement.children].filter((element) => {
+      const style = getComputedStyle(element);
+      return (
+        element instanceof HTMLDivElement && style.position === 'fixed' && style.width === '0px'
+      );
+    });
+    for (const candidate of candidates) candidate.remove();
+    return candidates.length;
+  });
+  if (removedHosts < 1) throw new Error('The hostile-page overlay-removal probe found no host.');
+  const recoveredAfterRemoval = await waitForAutomaticScores(page, 3, 10_000);
+  await worker.evaluate(async () => chrome.storage.local.set({ autoScan: false }));
+  await waitForAutomaticScores(page, 0, 10_000);
+  await worker.evaluate(async () => chrome.storage.local.set({ autoScan: true }));
+  const recoveredAfterReenable = await waitForAutomaticScores(page, 3, 10_000);
+  if (initialScores.length !== 3) {
+    throw new Error(`Dynamic image/background was not labelled: ${JSON.stringify(initialScores)}`);
   }
   if (consoleErrors.length > 0) {
     throw new Error(`Automatic page console error: ${consoleErrors.join('; ')}`);
   }
-  process.stdout.write(`${JSON.stringify({ status: 'complete', badge: result }, null, 2)}\n`);
+  process.stdout.write(
+    `${JSON.stringify(
+      {
+        status: 'complete',
+        initialScores,
+        pageCanReadScores,
+        removedHosts,
+        recoveredAfterRemoval,
+        recoveredAfterReenable,
+      },
+      null,
+      2,
+    )}\n`,
+  );
 } finally {
   await browser.close();
   await new Promise((resolve, reject) =>

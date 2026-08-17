@@ -55,20 +55,23 @@ function firstBackgroundUrl(element: HTMLElement): string | null {
   return /url\(["']?(.*?)["']?\)/.exec(background)?.[1] ?? null;
 }
 
+const OVERLAY_HOST_STYLE = [
+  'all: initial !important',
+  'display: block !important',
+  'visibility: visible !important',
+  'opacity: 1 !important',
+  'position: fixed !important',
+  'inset: 0 !important',
+  'width: 0 !important',
+  'height: 0 !important',
+  'z-index: 2147483647 !important',
+  'pointer-events: none !important',
+].join('; ');
+
 function createOverlayRoot(): ShadowRoot {
   const host = document.createElement('div');
-  host.id = 'local-ai-image-signal-overlay';
-  host.setAttribute('aria-label', 'Local AI image detection results');
-  Object.assign(host.style, {
-    all: 'initial',
-    position: 'fixed',
-    inset: '0',
-    width: '0',
-    height: '0',
-    zIndex: '2147483647',
-    pointerEvents: 'none',
-  });
-  const shadow = host.attachShadow({ mode: 'open' });
+  host.setAttribute('style', OVERLAY_HOST_STYLE);
+  const shadow = host.attachShadow({ mode: 'closed' });
   const style = document.createElement('style');
   style.textContent = `
     .signal-badge {
@@ -93,7 +96,20 @@ function createOverlayRoot(): ShadowRoot {
     }
   `;
   shadow.append(style);
-  document.documentElement.append(host);
+  const enforceOverlayHost = () => {
+    if (!host.isConnected) document.documentElement.append(host);
+    if (host.getAttribute('style') !== OVERLAY_HOST_STYLE) {
+      host.setAttribute('style', OVERLAY_HOST_STYLE);
+    }
+  };
+  enforceOverlayHost();
+  new MutationObserver(enforceOverlayHost).observe(document.documentElement, {
+    childList: true,
+  });
+  new MutationObserver(enforceOverlayHost).observe(host, {
+    attributes: true,
+    attributeFilter: ['class', 'hidden', 'style'],
+  });
   return shadow;
 }
 
@@ -220,7 +236,15 @@ async function initializeAutomaticLabels(): Promise<void> {
     const dimensions = visibleSize(element);
     if (!url || !dimensions) return;
     const previousUrl = elementUrl.get(element);
-    if (previousUrl === url) return;
+    if (previousUrl === url) {
+      const existing = entriesByUrl.get(url);
+      if (!existing) return;
+      existing.elements.add(element);
+      if (existing.result) applyResult(existing.result);
+      else pending.set(existing.id, existing.descriptor);
+      scheduleFlush();
+      return;
+    }
     if (previousUrl) {
       entriesByUrl.get(previousUrl)?.elements.delete(element);
       badges.get(element)?.remove();
@@ -290,6 +314,17 @@ async function initializeAutomaticLabels(): Promise<void> {
     for (const element of [...elements].slice(0, 2_000)) observeBackground(element);
   };
 
+  const rescanExistingContent = () => {
+    for (const image of document.images) {
+      register(image, image.currentSrc || image.src, 'img');
+    }
+    const elements = document.querySelectorAll<HTMLElement>('body *, [style], [class]');
+    for (const element of [...elements].slice(0, 2_000)) {
+      const backgroundUrl = firstBackgroundUrl(element);
+      if (backgroundUrl) register(element, backgroundUrl, 'background');
+    }
+  };
+
   for (const image of document.images) observeImage(image);
   scanBackgrounds(document);
   const mutations = new MutationObserver((records) => {
@@ -348,10 +383,7 @@ async function initializeAutomaticLabels(): Promise<void> {
         badges.clear();
         pending.clear();
       } else {
-        for (const image of document.images) {
-          register(image, image.currentSrc || image.src, 'img');
-        }
-        scanBackgrounds(document);
+        rescanExistingContent();
         scheduleFlush();
       }
     }
