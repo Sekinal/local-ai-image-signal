@@ -452,6 +452,13 @@ code {
     border-color: #276c64;
     background: #132e2e;
   }
+  .warning {
+    color: #fda4af;
+  }
+  .error {
+    color: #fecaca;
+    background: #3b2024;
+  }
   .limitations,
   .toggle {
     color: #c1c9d6;

@@ -1,6 +1,6 @@
 # POIDH claim package
 
-This page is the compact evidence index for the [local AI image detector Chrome bounty](https://poidh.xyz/arbitrum/bounty/323). It describes release v1.1.1. The maintainers' private benchmark has not been seen, and the public measurements below are not presented as its result.
+This page is the compact evidence index for the [local AI image detector Chrome bounty](https://poidh.xyz/arbitrum/bounty/323). It describes release v1.1.2. The maintainers' private benchmark has not been seen, and the public measurements below are not presented as its result.
 
 ![The packaged extension automatically placing calibrated AI-score badges over three deterministic browser fixtures](assets/poidh-claim.png)
 
@@ -14,7 +14,7 @@ This page is the compact evidence index for the [local AI image detector Chrome 
 
 > Public source and build instructions: https://github.com/Sekinal/local-ai-image-signal
 >
-> Release v1.1.1: https://github.com/Sekinal/local-ai-image-signal/releases/tag/v1.1.1
+> Release v1.1.2: https://github.com/Sekinal/local-ai-image-signal/releases/tag/v1.1.2
 >
 > Local AI Image Signal is an MIT-licensed native Manifest V3 Chrome extension. It automatically analyzes displayed `<img>` and CSS-background images on ordinary HTTP(S) pages and places a calibrated AI score beside every analyzed image. The required default decision threshold is exactly 0.65.
 >
@@ -24,9 +24,9 @@ This page is the compact evidence index for the [local AI image detector Chrome 
 >
 > Honest public development/calibration evidence at the fixed 0.65 threshold: clean/web/hard balanced accuracy 95.30% / 93.59% / 89.82%; low-quality macro balanced accuracy 75.84%; recent-HF low-quality fake recall 58.33%; OpenRouter low-quality fake recall 45.37%. These are not claims about the private bounty benchmark. Known failures—including tiny composites and extreme multi-hop degradation—are published in the model card.
 >
-> Requirement matrix: https://github.com/Sekinal/local-ai-image-signal/blob/v1.1.1/docs/BOUNTY_COMPLIANCE.md
+> Requirement matrix: https://github.com/Sekinal/local-ai-image-signal/blob/v1.1.2/docs/BOUNTY_COMPLIANCE.md
 >
-> Model card and limitations: https://github.com/Sekinal/local-ai-image-signal/blob/v1.1.1/docs/MODEL_CARD.md
+> Model card and limitations: https://github.com/Sekinal/local-ai-image-signal/blob/v1.1.2/docs/MODEL_CARD.md
 >
 > Exact training/evaluation source: https://github.com/Sekinal/local-ai-image-signal-training
 >
