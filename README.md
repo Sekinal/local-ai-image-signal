@@ -25,6 +25,9 @@ checkpoint fetcher, manifest-recovery tools, and rerun commands are published in
 The large recovery artifacts are pinned to immutable Hugging Face revision
 [`6fca3e7f4365363ee5c0fdb1a17d73917d54413d`](https://huggingface.co/Thermostatic/community-forensics-low-quality-detector-2026-08/tree/6fca3e7f4365363ee5c0fdb1a17d73917d54413d).
 
+For bounty reviewers, the concise requirement-to-evidence index and ready-to-submit
+claim text are in [the POIDH claim package](docs/POIDH_CLAIM.md).
+
 ## Scripts
 
 - `npm run dev` — WXT development build/runner.
@@ -35,6 +38,7 @@ The large recovery artifacts are pinned to immutable Hugging Face revision
 - `npm run test:e2e` — load the production build in local Chrome and compare seven hashed PNG/JPEG/WebP/alpha fixtures against Python reference logits.
 - `npm run test:e2e:wasm` — repeat the packaged parity smoke with Chrome WebGPU disabled, proving the bundled WASM-only path.
 - `npm run test:e2e:auto` — load an ordinary HTTP page in clean Chrome and require an automatic on-image score badge.
+- `npm run claim:evidence` — reproduce the checked-in POIDH evidence image through the packaged extension's automatic scan path.
 - `npm run parity:python` — regenerate reference logits (requires Python, Pillow, NumPy, and ONNX Runtime) for the hashed parity fixtures.
 - `npm run build` — production MV3 build with matching local ORT WASM assets.
 - `npm run package` — deterministic store-ready ZIP via WXT.

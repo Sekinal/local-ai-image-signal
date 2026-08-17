@@ -1,8 +1,9 @@
 {
   "name": "local-ai-image-signal",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "private": true,
   "type": "module",
+  "license": "MIT",
   "description": "A local-only Chrome extension for screening page images with a low-quality-robust Community Forensics detector.",
   "scripts": {
     "dev": "wxt",
@@ -20,6 +21,7 @@
     "test:e2e": "node scripts/e2e-inference.mjs",
     "test:e2e:wasm": "node scripts/e2e-inference.mjs --wasm",
     "test:e2e:auto": "node scripts/e2e-auto-page.mjs",
+    "claim:evidence": "node scripts/capture-claim-evidence.mjs",
     "parity:python": "python3 scripts/python-parity-reference.py",
     "build": "npm run model:verify && wxt build",
     "package": "npm run model:verify && wxt zip",
